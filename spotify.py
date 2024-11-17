@@ -3,9 +3,12 @@ import sqlite3
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+# Prompt the user for the CSV file name
+csv_file = input("Please enter the file name (with .csv extension) of your liked songs playlist: ")
+
 
 # Load CSV into pandas
-df = pd.read_csv("playlists.csv")
+df = pd.read_csv(csv_file)
 
 # Creating a new SQL database called songs.db
 conn = sqlite3.connect("songs.db")
@@ -62,8 +65,8 @@ def fetch_ml_data():
     return df
 
 # Function to predict song liking (now includes 'popularity' in CSV)
-def predict_song_liking(csv_file):
-    new_df = pd.read_csv(csv_file)
+def predict_song_liking(csv_file2):
+    new_df = pd.read_csv(csv_file2)
 
     required_columns = ["danceability", "energy", "loudness", "popularity"]
 
@@ -86,10 +89,13 @@ def predict_song_liking(csv_file):
 
     return new_df
 
+# Prompt the user for the CSV file name
+csv_file2 = input("Please enter the CSV file name of the playlist to evaluate (with .csv extension): ")
 
 print("Fetching data from database:")
 data_from_db = fetch_ml_data()
 
-print("\nPredicting song liking from poop.csv:")
-predictions_result = predict_song_liking("poop.csv")
+print(f"\nPredicting song liking from {csv_file2}")
+predictions_result = predict_song_liking(csv_file2)
 print(predictions_result.head())  # Print the results with predictions
+
